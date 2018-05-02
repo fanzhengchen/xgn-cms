@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgn.cms.mapper.ComponentMapper">
+  <resultMap id="BaseResultMap" type="com.xgn.cms.domain.Component">
+    <id column="componentId" jdbcType="INTEGER" property="componentId" />
+    <result column="componentName" jdbcType="VARCHAR" property="componentName" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="createBy" jdbcType="VARCHAR" property="createBy" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="placeholder" jdbcType="VARCHAR" property="placeholder" />
+    <result column="style" jdbcType="VARCHAR" property="style" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from component
+    where componentId = #{componentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xgn.cms.domain.Component">
+    insert into component (componentId, componentName, type, 
+      createTime, createBy, category, 
+      icon, label, title, 
+      placeholder, style)
+    values (#{componentId,jdbcType=INTEGER}, #{componentName,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, 
+      #{icon,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{placeholder,jdbcType=VARCHAR}, #{style,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.xgn.cms.domain.Component">
+    update component
+    set componentName = #{componentName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      createBy = #{createBy,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      label = #{label,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      placeholder = #{placeholder,jdbcType=VARCHAR},
+      style = #{style,jdbcType=VARCHAR}
+    where componentId = #{componentId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select componentId, componentName, type, createTime, createBy, category, icon, label, 
+    title, placeholder, style
+    from component
+    where componentId = #{componentId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select componentId, componentName, type, createTime, createBy, category, icon, label, 
+    title, placeholder, style
+    from component
+  </select>
+</mapper>
