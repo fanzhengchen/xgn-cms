@@ -28,7 +28,7 @@ create table if not exists whitelist (
 
 create table if not exists project (
   `projectId`  INT primary key   auto_increment,
-  `prjectName` varchar(40)            NOT NULL,
+  `projectName` varchar(40)            NOT NULL,
   `createTime` datetime default now() NOT NULL
 );
 
@@ -82,6 +82,6 @@ create table if not exists page (
 );
 
 #默认用户admin
-insert into user values (00, 'admin', 111, '123456');
+insert into user values (00, 'admin', 111, 'admin123');
 
 

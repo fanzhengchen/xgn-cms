@@ -6,7 +6,7 @@ import com.xgn.cms.domain.response.BaseResponse;
 import com.xgn.cms.domain.response.LoginData;
 import com.xgn.cms.domain.response.UserData;
 import com.xgn.cms.entity.User;
-import com.xgn.cms.mapper.UserMapper;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,9 +16,6 @@ import javax.annotation.Resource;
 @Service
 public class UserServiceImpl implements UserService {
 
-
-    @Resource
-    UserMapper userMapper;
 
     @Override
     public BaseResponse login(@RequestBody LoginRequest request) {

@@ -1,35 +1,23 @@
 package com.xgn.cms.entity;
 
+import lombok.Data;
+
+import javax.persistence.*;
 import java.util.Date;
 
+@Data
+@Entity
+@Table(name = "project")
 public class Project {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer projectId;
 
-    private String prjectName;
+    private String projectName;
 
     private Date createTime;
 
-    public Integer getProjectId() {
-        return projectId;
-    }
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
-    }
 
-    public String getPrjectName() {
-        return prjectName;
-    }
-
-    public void setPrjectName(String prjectName) {
-        this.prjectName = prjectName == null ? null : prjectName.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
 }

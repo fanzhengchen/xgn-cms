@@ -3,9 +3,8 @@ package com.xgn.cms;
 import com.xgn.cms.entity.Project;
 import com.xgn.cms.entity.User;
 import com.xgn.cms.entity.WhiteList;
-import com.xgn.cms.mapper.ProjectMapper;
-import com.xgn.cms.mapper.UserMapper;
-import com.xgn.cms.mapper.WhiteListMapper;
+import com.xgn.cms.repository.ProjectRepository;
+import com.xgn.cms.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,51 +14,68 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import javax.persistence.Table;
+import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CmsApplicationTests {
 
-    @Resource
-    ProjectMapper projectMapper;
-    @Resource
-    UserMapper userMapper;
-    @Resource
-    WhiteListMapper whiteListMapper;
+//    @Resource
+//    ProjectMapper projectMapper;
+//    @Resource
+//    UserMapper userMapper;
+//    @Resource
+//    WhiteListMapper whiteListMapper;
 
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    ProjectRepository projectRepository;
 
     @Test
-    public void insertUser(){
+    public void saveUser() {
+        User user = new User();
+        user.setPassword("admin123");
+        user.setPriority(111);
+        user.setUserName("admin");
+        if (userRepository.findUserByUserName(user.getUserName()) == null) {
+            userRepository.save(user);
+        }
 
     }
+
+    @Test
+    public void deleteUser() {
+        userRepository.deleteById(4);
+    }
+
+    @Test
+    public void saveNewProject(){
+
+        Project project = new Project();
+        project.setProjectName("TestProject");
+        project.setCreateTime(new Date(System.currentTimeMillis()));
+        projectRepository.save(project);
+    }
+
 
     @Test
     @Rollback
     public void testInsert() {
 
-        Project project = new Project();
 
-        project.setPrjectName("兔波波");
-        projectMapper.insert(project);
-
-        project.setPrjectName("四季严选");
-        projectMapper.insert(project);
-
-        project.setPrjectName("兔巢");
-        projectMapper.insert(project);
     }
 
     @Test
     public void testSelectUserByUserName() {
-       // User user = userMapper.selectByUserName("admin");
-       // System.out.println(user.getUserId() + " " + user.getPassword());
-       // Assert.assertEquals(user.getUserName(), "admin");
+
 
     }
 
     @Test
     @Rollback
-    public void testInsertWhiteCode(){
+    public void testInsertWhiteCode() {
 
     }
 

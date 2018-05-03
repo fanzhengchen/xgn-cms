@@ -1,7 +1,6 @@
 package com.xgn.cms;
 
 import com.xgn.cms.entity.User;
-import com.xgn.cms.mapper.UserMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

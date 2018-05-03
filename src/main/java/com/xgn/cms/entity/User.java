@@ -1,7 +1,13 @@
 package com.xgn.cms.entity;
 
+import javax.persistence.*;
 
+@Entity
+@Table(name = "user")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "userId")
     private Integer userId;
 
     private String userName;
