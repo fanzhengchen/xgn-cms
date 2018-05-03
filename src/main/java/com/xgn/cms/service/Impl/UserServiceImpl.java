@@ -1,4 +1,4 @@
-package com.xgn.cms.service;
+package com.xgn.cms.service.Impl;
 
 import com.xgn.cms.TokenUtil;
 import com.xgn.cms.domain.request.LoginRequest;
@@ -7,6 +7,7 @@ import com.xgn.cms.domain.response.LoginData;
 import com.xgn.cms.domain.response.UserData;
 import com.xgn.cms.entity.User;
 
+import com.xgn.cms.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,6 +1,7 @@
 package com.xgn.cms.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,13 +12,18 @@ import java.util.Date;
 public class Project {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer projectId;
+    @GenericGenerator(name = "projectId",strategy = "com.xgn.cms.generator.CmsIdGenerator")
+    @GeneratedValue(generator = "projectId")
+    private String projectId;
 
     private String projectName;
 
     private Date createTime;
 
 
+    @PrePersist
+    protected void onCreate(){
+        createTime = new Date(System.currentTimeMillis());
+    }
 
 }

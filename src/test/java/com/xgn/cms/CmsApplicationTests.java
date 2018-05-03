@@ -1,10 +1,12 @@
 package com.xgn.cms;
 
+import com.xgn.cms.domain.response.ProjectItem;
 import com.xgn.cms.entity.Project;
 import com.xgn.cms.entity.User;
 import com.xgn.cms.entity.WhiteList;
 import com.xgn.cms.repository.ProjectRepository;
 import com.xgn.cms.repository.UserRepository;
+import org.hibernate.Session;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +16,12 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -33,6 +39,10 @@ public class CmsApplicationTests {
     @Autowired
     ProjectRepository projectRepository;
 
+    @PersistenceContext
+    EntityManager entityManager;
+
+
     @Test
     public void saveUser() {
         User user = new User();
@@ -47,15 +57,15 @@ public class CmsApplicationTests {
 
     @Test
     public void deleteUser() {
-        userRepository.deleteById(4);
+       // userRepository.deleteById(4);
     }
 
     @Test
-    public void saveNewProject(){
+    public void saveNewProject() {
 
         Project project = new Project();
-        project.setProjectName("TestProject");
-        project.setCreateTime(new Date(System.currentTimeMillis()));
+        project.setProjectName("TestProject3");
+
         projectRepository.save(project);
     }
 
@@ -79,4 +89,23 @@ public class CmsApplicationTests {
 
     }
 
+    @Test
+    public void testCriteriaTuple() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Tuple> cq = cb.createTupleQuery();
+        Root<Project> root = cq.from(Project.class);
+        cq.multiselect(root.get("projectId"), root.get("projectName"));
+        TypedQuery<Tuple> typedQuery = entityManager.createQuery(cq);
+        List<Tuple> tupleList = typedQuery.getResultList();
+        System.out.println("====================");
+        for(Tuple tuple: tupleList){
+            System.out.println(tuple.get(0) + " " + tuple.get(1));
+        }
+    }
+
+
+    @Test
+    public void testFetchProjects(){
+        projectRepository.findAll();
+    }
 }
