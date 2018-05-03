@@ -1,9 +1,11 @@
-package com.xgn.cms.domain;
+package com.xgn.cms.entity;
 
 import java.util.Date;
 
 public class Page {
     private Integer pageId;
+
+    private Integer version;
 
     private String pageName;
 
@@ -11,11 +13,9 @@ public class Page {
 
     private Date createTime;
 
+    private Integer minVersion;
+
     private String type;
-
-    private Date beginTime;
-
-    private Date endTime;
 
     private String platform;
 
@@ -31,6 +31,14 @@ public class Page {
 
     public void setPageId(Integer pageId) {
         this.pageId = pageId;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     public String getPageName() {
@@ -57,28 +65,20 @@ public class Page {
         this.createTime = createTime;
     }
 
+    public Integer getMinVersion() {
+        return minVersion;
+    }
+
+    public void setMinVersion(Integer minVersion) {
+        this.minVersion = minVersion;
+    }
+
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
-    }
-
-    public Date getBeginTime() {
-        return beginTime;
-    }
-
-    public void setBeginTime(Date beginTime) {
-        this.beginTime = beginTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
     }
 
     public String getPlatform() {

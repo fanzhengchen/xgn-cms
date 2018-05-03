@@ -1,6 +1,6 @@
 package com.xgn.cms.mapper;
 
-import com.xgn.cms.domain.Component;
+import com.xgn.cms.entity.Component;
 import java.util.List;
 
 public interface ComponentMapper {

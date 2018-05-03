@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgn.cms.mapper.WhiteListMapper">
+  <resultMap id="BaseResultMap" type="com.xgn.cms.entity.WhiteList">
+    <id column="whiteCode" jdbcType="VARCHAR" property="whitecode" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from whitelist
+    where whiteCode = #{whitecode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xgn.cms.entity.WhiteList">
+    insert into whitelist (whiteCode)
+    values (#{whitecode,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select whiteCode
+    from whitelist
+  </select>
+</mapper>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xgn.cms.mapper.ComponentMapper">
-  <resultMap id="BaseResultMap" type="com.xgn.cms.domain.Component">
+  <resultMap id="BaseResultMap" type="com.xgn.cms.entity.Component">
     <id column="componentId" jdbcType="INTEGER" property="componentId" />
     <result column="componentName" jdbcType="VARCHAR" property="componentName" />
     <result column="type" jdbcType="VARCHAR" property="type" />
@@ -18,7 +18,7 @@
     delete from component
     where componentId = #{componentId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xgn.cms.domain.Component">
+  <insert id="insert" parameterType="com.xgn.cms.entity.Component">
     insert into component (componentId, componentName, type, 
       createTime, createBy, category, 
       icon, label, title, 
@@ -28,7 +28,7 @@
       #{icon,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
       #{placeholder,jdbcType=VARCHAR}, #{style,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.xgn.cms.domain.Component">
+  <update id="updateByPrimaryKey" parameterType="com.xgn.cms.entity.Component">
     update component
     set componentName = #{componentName,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},

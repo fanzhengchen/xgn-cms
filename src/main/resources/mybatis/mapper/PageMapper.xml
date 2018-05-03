@@ -1,55 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xgn.cms.mapper.PageMapper">
-  <resultMap id="BaseResultMap" type="com.xgn.cms.domain.Page">
+  <resultMap id="BaseResultMap" type="com.xgn.cms.entity.Page">
     <id column="pageId" jdbcType="INTEGER" property="pageId" />
-    <result column="pageName" jdbcType="VARCHAR" property="pageName" />
+    <id column="version" jdbcType="INTEGER" property="version" />
+    <id column="pageName" jdbcType="VARCHAR" property="pageName" />
     <result column="status" jdbcType="CHAR" property="status" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="minVersion" jdbcType="INTEGER" property="minVersion" />
     <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="beginTime" jdbcType="TIMESTAMP" property="beginTime" />
-    <result column="endTime" jdbcType="TIMESTAMP" property="endTime" />
     <result column="platform" jdbcType="CHAR" property="platform" />
     <result column="editor" jdbcType="VARCHAR" property="editor" />
     <result column="createBy" jdbcType="VARCHAR" property="createBy" />
     <result column="projectId" jdbcType="INTEGER" property="projectId" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="map">
     delete from page
     where pageId = #{pageId,jdbcType=INTEGER}
+      and version = #{version,jdbcType=INTEGER}
+      and pageName = #{pageName,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.xgn.cms.domain.Page">
-    insert into page (pageId, pageName, status, 
-      createTime, type, beginTime, 
-      endTime, platform, editor, 
+  <insert id="insert" parameterType="com.xgn.cms.entity.Page">
+    insert into page (pageId, version, pageName, 
+      status, createTime, minVersion, 
+      type, platform, editor, 
       createBy, projectId)
-    values (#{pageId,jdbcType=INTEGER}, #{pageName,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, #{beginTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{platform,jdbcType=CHAR}, #{editor,jdbcType=VARCHAR}, 
+    values (#{pageId,jdbcType=INTEGER}, #{version,jdbcType=INTEGER}, #{pageName,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{minVersion,jdbcType=INTEGER}, 
+      #{type,jdbcType=VARCHAR}, #{platform,jdbcType=CHAR}, #{editor,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=VARCHAR}, #{projectId,jdbcType=INTEGER})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.xgn.cms.domain.Page">
+  <update id="updateByPrimaryKey" parameterType="com.xgn.cms.entity.Page">
     update page
-    set pageName = #{pageName,jdbcType=VARCHAR},
-      status = #{status,jdbcType=CHAR},
+    set status = #{status,jdbcType=CHAR},
       createTime = #{createTime,jdbcType=TIMESTAMP},
+      minVersion = #{minVersion,jdbcType=INTEGER},
       type = #{type,jdbcType=VARCHAR},
-      beginTime = #{beginTime,jdbcType=TIMESTAMP},
-      endTime = #{endTime,jdbcType=TIMESTAMP},
       platform = #{platform,jdbcType=CHAR},
       editor = #{editor,jdbcType=VARCHAR},
       createBy = #{createBy,jdbcType=VARCHAR},
       projectId = #{projectId,jdbcType=INTEGER}
     where pageId = #{pageId,jdbcType=INTEGER}
+      and version = #{version,jdbcType=INTEGER}
+      and pageName = #{pageName,jdbcType=VARCHAR}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select pageId, pageName, status, createTime, type, beginTime, endTime, platform, 
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select pageId, version, pageName, status, createTime, minVersion, type, platform, 
     editor, createBy, projectId
     from page
     where pageId = #{pageId,jdbcType=INTEGER}
+      and version = #{version,jdbcType=INTEGER}
+      and pageName = #{pageName,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select pageId, pageName, status, createTime, type, beginTime, endTime, platform, 
+    select pageId, version, pageName, status, createTime, minVersion, type, platform, 
     editor, createBy, projectId
     from page
   </select>

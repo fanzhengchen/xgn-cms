@@ -1,6 +1,6 @@
 package com.xgn.cms.mapper;
 
-import com.xgn.cms.domain.Project;
+import com.xgn.cms.entity.Project;
 import java.util.List;
 
 public interface ProjectMapper {

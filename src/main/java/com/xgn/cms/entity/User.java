@@ -1,11 +1,12 @@
-package com.xgn.cms.domain;
+package com.xgn.cms.entity;
+
 
 public class User {
     private Integer userId;
 
     private String userName;
 
-    private Long priority;
+    private Integer priority;
 
     private String password;
 
@@ -25,11 +26,11 @@ public class User {
         this.userName = userName == null ? null : userName.trim();
     }
 
-    public Long getPriority() {
+    public Integer getPriority() {
         return priority;
     }
 
-    public void setPriority(Long priority) {
+    public void setPriority(Integer priority) {
         this.priority = priority;
     }
 

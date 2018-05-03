@@ -1,4 +1,4 @@
-package com.xgn.cms.domain;
+package com.xgn.cms.entity;
 
 import java.util.Date;
 
