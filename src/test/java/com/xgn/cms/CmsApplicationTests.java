@@ -1,5 +1,6 @@
 package com.xgn.cms;
 
+import com.xgn.cms.domain.response.BaseResponse;
 import com.xgn.cms.domain.response.ProjectItem;
 import com.xgn.cms.entity.Page;
 import com.xgn.cms.entity.Project;
@@ -151,5 +152,17 @@ public class CmsApplicationTests {
             Page t = pageRepository.findById(page.getPageId()).get();
             System.out.println("aaa " + (index++) + " " + t);
         }
+    }
+
+    @Test
+    public void parseToken() {
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTUyNTg1OTcyNH0.Idw_MG1N28YQ-ZHauz7lognQ1hH2xu9mTbxdTbSuEUw";
+        String username = TokenUtil.getUsername(token);
+        System.out.println("username :" + username);
+    }
+
+    @Test
+    public void testObjectMapper(){
+        System.out.println(BaseResponse.ok().toString());
     }
 }

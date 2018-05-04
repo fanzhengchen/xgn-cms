@@ -25,4 +25,8 @@ public interface PageRepository extends JpaRepository<Page, String>, JpaSpecific
     int updatePageInfo(@Param("pageId") String pageId,
                        @Param("platform") String platform,
                        @Param("pageInfo") String pageInfo);
+
+
+    //@Query("select Page from Page where pageId= :pageId")
+    Page findByPageId(String pageId);
 }

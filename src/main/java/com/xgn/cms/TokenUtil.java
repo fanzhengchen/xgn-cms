@@ -30,16 +30,18 @@ public class TokenUtil {
                 .compact();
     }
 
-    public static String getUsername(HttpServletRequest request) {
-        String token = request.getHeader(HEADER_STRING);
-        if (token == null) {
-            return null;
-        }
+    public static String getUsername(String token) {
 
         Claims claims = Jwts.parser()
                 .setSigningKey(SECRET)
                 .parseClaimsJws(token.replace(TOKEN_PREFIX,""))
                 .getBody();
         return claims.getSubject();
+    }
+
+
+    public static String getUsername(HttpServletRequest request) {
+        String token = request.getHeader(HEADER_STRING);
+        return getUsername(token);
     }
 }

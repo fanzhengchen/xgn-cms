@@ -9,6 +9,7 @@ import com.xgn.cms.domain.response.ProjectListResponse;
 import com.xgn.cms.entity.Project;
 import com.xgn.cms.repository.ProjectRepository;
 import com.xgn.cms.service.ProjectService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
@@ -44,6 +46,7 @@ public class ProjectServiceImpl implements ProjectService {
         CreateProjectResponse response = CreateProjectResponse.builder()
                 .projectId(res.getProjectId())
                 .build();
+        log.debug("project {}", project);
         return BaseResponse.ok(res);
 
 

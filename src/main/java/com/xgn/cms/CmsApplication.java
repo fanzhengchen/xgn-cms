@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
-@ComponentScan("com.xgn.cms")
+
 @EnableJpaRepositories("com.xgn.cms.repository")
 @EntityScan("com.xgn.cms.entity")
 @SpringBootApplication
