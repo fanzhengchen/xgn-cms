@@ -2,9 +2,11 @@ package com.xgn.cms.controller;
 
 import com.xgn.cms.domain.response.BaseResponse;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/whitecode")
+@RestController
+@RequestMapping("/whitecode")
 public class WhiteController {
 
 

@@ -1,9 +1,11 @@
 package com.xgn.cms;
 
 import com.xgn.cms.domain.response.ProjectItem;
+import com.xgn.cms.entity.Page;
 import com.xgn.cms.entity.Project;
 import com.xgn.cms.entity.User;
 import com.xgn.cms.entity.WhiteList;
+import com.xgn.cms.repository.PageRepository;
 import com.xgn.cms.repository.ProjectRepository;
 import com.xgn.cms.repository.UserRepository;
 import org.hibernate.Session;
@@ -27,17 +29,12 @@ import java.util.List;
 @SpringBootTest
 public class CmsApplicationTests {
 
-//    @Resource
-//    ProjectMapper projectMapper;
-//    @Resource
-//    UserMapper userMapper;
-//    @Resource
-//    WhiteListMapper whiteListMapper;
-
     @Autowired
     UserRepository userRepository;
     @Autowired
     ProjectRepository projectRepository;
+    @Autowired
+    PageRepository pageRepository;
 
     @PersistenceContext
     EntityManager entityManager;
@@ -57,7 +54,7 @@ public class CmsApplicationTests {
 
     @Test
     public void deleteUser() {
-       // userRepository.deleteById(4);
+        // userRepository.deleteById(4);
     }
 
     @Test
@@ -98,14 +95,61 @@ public class CmsApplicationTests {
         TypedQuery<Tuple> typedQuery = entityManager.createQuery(cq);
         List<Tuple> tupleList = typedQuery.getResultList();
         System.out.println("====================");
-        for(Tuple tuple: tupleList){
+        for (Tuple tuple : tupleList) {
             System.out.println(tuple.get(0) + " " + tuple.get(1));
         }
     }
 
 
     @Test
-    public void testFetchProjects(){
+    public void testFetchProjects() {
         projectRepository.findAll();
+    }
+
+    @Test
+    @Rollback
+    public void testCreatePage() {
+        Project project = new Project();
+        project.setProjectName("project_test");
+        projectRepository.save(project);
+
+        Page page1 = Page.builder()
+                .pageName("page1")
+                .platform("APP")
+                .version(100)
+                .project(project)
+                .createBy("mark")
+                .editor("mark")
+                .build();
+        Page page2 = Page.builder()
+                .pageName("page2")
+                .platform("APP")
+                .version(200)
+                .project(project)
+                .createBy("mark")
+                .editor("mark")
+                .build();
+
+        pageRepository.save(page1);
+        pageRepository.save(page2);
+
+
+        pageRepository.updatePageStatus(page1.getPageId(), "DRAFT");
+
+        //projectRepository.delete(project);
+    }
+
+
+    @Test
+    public void testUpdatePageInfo() {
+        List<Page> pages = pageRepository.findAll();
+        int index = 0;
+        for (Page page : pages) {
+            pageRepository.updatePageInfo(page.getPageId(),
+                    page.getPlatform(),
+                    "{\"key\":\"value\"}");
+            Page t = pageRepository.findById(page.getPageId()).get();
+            System.out.println("aaa " + (index++) + " " + t);
+        }
     }
 }

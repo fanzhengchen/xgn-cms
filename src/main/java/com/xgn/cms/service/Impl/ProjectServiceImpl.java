@@ -10,6 +10,7 @@ import com.xgn.cms.entity.Project;
 import com.xgn.cms.repository.ProjectRepository;
 import com.xgn.cms.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +19,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ProjectServiceImpl implements ProjectService {
 
     @Autowired

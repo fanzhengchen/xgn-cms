@@ -13,7 +13,7 @@ set @si_ji = 1;
 set @tu_cao = 2;
 
 create table if not exists user (
-  `userId`   varchar(64)                               NOT NULL,
+  `userId`   varchar(64)                       NOT NULL,
   `userName` varchar(64) character set utf8mb4 NOT NULL,
   primary key (userId, userName),
   `priority` int default 0
@@ -27,14 +27,14 @@ create table if not exists whitelist (
 
 
 create table if not exists project (
-  `projectId`  varchar(64) primary key ,
+  `projectId`   varchar(64) primary key,
   `projectName` varchar(64)            NOT NULL,
-  `createTime` datetime default now() NOT NULL
+  `createTime`  datetime default now() NOT NULL
 );
 
 
 create table if not exists component (
-  `componentId`   varchar(64) primary key       NOT NULL
+  `componentId`   varchar(64) primary key             NOT NULL
   comment '组件ID',
   `componentName` varchar(64) default 'component'
   comment '组件名称',
@@ -54,31 +54,32 @@ create table if not exists component (
 
 
 create table if not exists page (
-  `pageId`     varchar(64)                                      NOT NULL
+  `pageId`     varchar(64)                                             NOT NULL
   COMMENT '页面唯一ID',
   `version`    int comment '版本号',
   `pageName`   varchar(64)                                             not null
   COMMENT '页面名称 需要保证唯一',
   primary key (pageId, version),
 
-  `status`     enum ('online', 'offline', 'draft') character set utf8mb4 default 'draft'
+  `status`     varchar(64)character set utf8mb4 default 'draft'
   comment '页面状态目前就三种 上线、下线、未上线',
   `createTime` datetime DEFAULT NOW()                                  not null
   COMMENT '页面创建时间',
 
   `minVersion` int comment '最低支持版本号',
   `type`       varchar(64)character set utf8mb4 comment '页面类型',
-  `platform`   enum ('app', 'mini', 'appOrMini') character set utf8mb4 NOT NULL
+  `platform`   varchar(16) character set utf8mb4                       NOT NULL
   comment '页面适用的平台 app 小程序 或者都要',
   `editor`     varchar(64) character set utf8mb4                       NOT NULL
   comment '页面的修改人',
   `createBy`   varchar(64) character set utf8mb4                       NOT NULL
   comment '页面的创建人',
 
-  `projectId`  varchar(64)                                                     NOT NULL
+  `projectId`  varchar(64)                                             NOT NULL
   comment '项目ID',
-  foreign key (projectId) references project (projectId)
+  foreign key (projectId) references project (projectId),
 
+  `pageInfo`   varchar(8192) character set utf8mb4 comment '页面数据'
 );
 
 #默认用户admin

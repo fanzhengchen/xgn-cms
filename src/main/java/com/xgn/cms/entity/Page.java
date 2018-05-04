@@ -1,9 +1,23 @@
 package com.xgn.cms.entity;
 
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.util.Date;
 
+@Data
+@Builder
+@Entity
+@Table(name = "page")
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class Page {
-    private Integer pageId;
+
+    @Id
+    @GeneratedValue(generator = "pageId")
+    @GenericGenerator(name = "pageId",strategy = "com.xgn.cms.generator.CmsIdGenerator")
+    private String pageId;
 
     private Integer version;
 
@@ -23,93 +37,14 @@ public class Page {
 
     private String createBy;
 
-    private Integer projectId;
+    private String pageInfo;
 
-    public Integer getPageId() {
-        return pageId;
-    }
+    @ManyToOne
+    @JoinColumn(name = "projectId")
+    private Project project;
 
-    public void setPageId(Integer pageId) {
-        this.pageId = pageId;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public String getPageName() {
-        return pageName;
-    }
-
-    public void setPageName(String pageName) {
-        this.pageName = pageName == null ? null : pageName.trim();
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getMinVersion() {
-        return minVersion;
-    }
-
-    public void setMinVersion(Integer minVersion) {
-        this.minVersion = minVersion;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
-    }
-
-    public String getPlatform() {
-        return platform;
-    }
-
-    public void setPlatform(String platform) {
-        this.platform = platform == null ? null : platform.trim();
-    }
-
-    public String getEditor() {
-        return editor;
-    }
-
-    public void setEditor(String editor) {
-        this.editor = editor == null ? null : editor.trim();
-    }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy == null ? null : createBy.trim();
-    }
-
-    public Integer getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
+    @PrePersist
+    protected void onCreate(){
+        createTime = new Date(System.currentTimeMillis());
     }
 }
