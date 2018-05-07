@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public BaseResponse login(@RequestBody LoginRequest request) {
 
-        User user = null;//userRepository.findUserByUserName(request.getUsername());
+        User user = userRepository.findUserByUserName(request.getUsername());
         if (user == null) {
             return BaseResponse.error("user not exits");
         }
@@ -41,15 +41,15 @@ public class UserServiceImpl implements UserService {
          */
 
         String token = TokenUtil.createToken(request.getUsername());
-        LoginData loginData = new LoginData();
-        UserData userData = new UserData();
-        userData.setUsername(user.getUserName());
-        userData.setUserId(user.getUserId().toString());
+        UserData userData = UserData.builder()
+                .username(user.getUserName())
+                .projectId(user.getProject().getProjectId())
+                .build();
 
-        loginData.setToken(token);
-        loginData.setUserData(userData);
-
-        //String username = TokenUtil.getUsername(req);
+        LoginData loginData = LoginData.builder()
+                .token(token)
+                .userData(userData)
+                .build();
 
         return BaseResponse.ok(loginData);
     }

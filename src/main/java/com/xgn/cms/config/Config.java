@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
  */
 @Configuration
 @Scope("singleton")
+@Data
 @DisconfFile(filename = "common.properties")
 public class Config {
 
@@ -28,129 +29,125 @@ public class Config {
     private String namingStrategy;
     private String logLevel;
 
-    @DisconfFileItem(name = "server.port",associateField = "serverPort")
+    private int redisPort;
+    private String redisHost;
+    private String redisPassword;
+    private int redisDatabase;
+
+    private String rabbitmqAddress;
+    private String rabbitmqUsername;
+    private String rabbitmqPassword;
+    private String rabbitmqVirtualHost;
+    private int rabbitmqChannelCacheSize;
+    private int rabbitmqConcurrentConsumers;
+    private int rabbitmqMaxConcurrentConsumers;
+    private int rabbitmqPrefetchCount;
+
+
+    @DisconfFileItem(name = "server.port", associateField = "serverPort")
     public Integer getServerPort() {
         return serverPort;
     }
 
-    @DisconfFileItem(name = "spring.datasource.url",associateField = "dataSourceUrl")
+    @DisconfFileItem(name = "spring.datasource.url", associateField = "dataSourceUrl")
     public String getDataSourceUrl() {
         return dataSourceUrl;
     }
 
-    @DisconfFileItem(name = "spring.datasource.username",associateField = "dataSourceUserName")
+    @DisconfFileItem(name = "spring.datasource.username", associateField = "dataSourceUserName")
     public String getDataSourceUserName() {
         return dataSourceUserName;
     }
 
-    @DisconfFileItem(name = "spring.datasource.password",associateField = "dataSourcePassword")
+    @DisconfFileItem(name = "spring.datasource.password", associateField = "dataSourcePassword")
     public String getDataSourcePassword() {
         return dataSourcePassword;
     }
 
-    @DisconfFileItem(name = "spring.datasource.driver-class-name",associateField = "driverClassName")
+    @DisconfFileItem(name = "spring.datasource.driver-class-name", associateField = "driverClassName")
     public String getDriverClassName() {
         return driverClassName;
     }
 
-    @DisconfFileItem(name = "spring.jpa.database",associateField = "jpaDatabase")
+    @DisconfFileItem(name = "spring.jpa.database", associateField = "jpaDatabase")
     public String getJpaDatabase() {
         return jpaDatabase;
     }
 
 
-    @DisconfFileItem(name = "spring.jpa.properties.hibernate.dialect",associateField = "hibernateDialect")
+    @DisconfFileItem(name = "spring.jpa.properties.hibernate.dialect", associateField = "hibernateDialect")
     public String getHibernateDialect() {
         return hibernateDialect;
     }
 
-    @DisconfFileItem(name = "spring.jpa.show-sql",associateField = "showSql")
+    @DisconfFileItem(name = "spring.jpa.show-sql", associateField = "showSql")
     public Boolean getShowSql() {
         return showSql;
     }
 
-    @DisconfFileItem(name = "spring.jpa.generate-ddl",associateField = "generateDll")
+    @DisconfFileItem(name = "spring.jpa.generate-ddl", associateField = "generateDll")
     public Boolean getGenerateDll() {
         return generateDll;
     }
 
-    @DisconfFileItem(name = "spring.jpa.open-in-view",associateField = "openInView")
+    @DisconfFileItem(name = "spring.jpa.open-in-view", associateField = "openInView")
     public Boolean getOpenInView() {
         return openInView;
     }
 
-    @DisconfFileItem(name = "spring.jpa.hibernate.ddl-auto",associateField = "allAuto")
+    @DisconfFileItem(name = "spring.jpa.hibernate.ddl-auto", associateField = "dllAuto")
     public Boolean getDllAuto() {
         return dllAuto;
     }
 
-    @DisconfFileItem(name = "spring.jpa.hibernate.naming.physical-strategy",associateField = "namingStrategy")
+    @DisconfFileItem(name = "spring.jpa.hibernate.naming.physical-strategy", associateField = "namingStrategy")
     public String getNamingStrategy() {
         return namingStrategy;
     }
 
-    @DisconfFileItem(name = "logging.level.com.xgn.cms",associateField = "debug")
+    @DisconfFileItem(name = "logging.level.com.xgn.cms", associateField = "logLevel")
     public String getLogLevel() {
         return logLevel;
     }
 
-    public void setServerPort(Integer serverPort) {
-        this.serverPort = serverPort;
+    @DisconfFileItem(name = "spring.redis.port", associateField = "redisPort")
+    public int getRedisPort() {
+        return redisPort;
     }
 
-    public void setDataSourceUrl(String dataSourceUrl) {
-        this.dataSourceUrl = dataSourceUrl;
+    @DisconfFileItem(name = "spring.redis.host", associateField = "redisHost")
+    public String getRedisHost() {
+        return redisHost;
     }
 
-    public void setDataSourceUserName(String dataSourceUserName) {
-        this.dataSourceUserName = dataSourceUserName;
+    @DisconfFileItem(name = "spring.redis.password", associateField = "redisPassword")
+    public String getRedisPassword() {
+        return redisPassword;
     }
 
-    public void setDataSourcePassword(String dataSourcePassword) {
-        this.dataSourcePassword = dataSourcePassword;
+    @DisconfFileItem(name = "spring.redis.database", associateField = "redisDatabase")
+    public Integer getRedisDatabase() {
+        return redisDatabase;
     }
 
-    public void setDriverClassName(String driverClassName) {
-        this.driverClassName = driverClassName;
+    @DisconfFileItem(name = "rabbitmq.address", associateField = "rabbitmqAddress")
+    public String getRabbitmqAddress() {
+        return rabbitmqAddress;
     }
 
-    public void setJpaDatabase(String jpaDatabase) {
-        this.jpaDatabase = jpaDatabase;
+    @DisconfFileItem(name = "rabbitmq.username", associateField = "rabbitmqUsername")
+    public String getRabbitmqUsername() {
+        return rabbitmqUsername;
     }
 
-    public void setHibernateDialect(String hibernateDialect) {
-        this.hibernateDialect = hibernateDialect;
+    @DisconfFileItem(name = "rabbitmq.password", associateField = "rabbitmqPassword")
+    public String getRabbitmqPassword() {
+        return rabbitmqPassword;
     }
 
-    public void setShowSql(Boolean showSql) {
-        this.showSql = showSql;
+    @DisconfFileItem(name = "rabbitmq.virtualHost", associateField = "rabbitmqVirtualHost")
+    public String getRabbitmqVirtualHost() {
+        return rabbitmqVirtualHost;
     }
-
-    public void setGenerateDll(Boolean generateDll) {
-        this.generateDll = generateDll;
-    }
-
-    public void setOpenInView(Boolean openInView) {
-        this.openInView = openInView;
-    }
-
-    public void setDllAuto(Boolean dllAuto) {
-        this.dllAuto = dllAuto;
-    }
-
-    public void setNamingStrategy(String namingStrategy) {
-        this.namingStrategy = namingStrategy;
-    }
-
-    public void setLogLevel(String logLevel) {
-        this.logLevel = logLevel;
-    }
-
-
-//@DisconfFileItem(name = "redis.host", associateField = "redisHost")
-    //public String getRedisHost() {
-    //    return redisHost;
-
-
 
 }
