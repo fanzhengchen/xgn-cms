@@ -9,5 +9,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
+    @Override
+    <S extends User> S save(S s);
 
+
+    User findUserByUserId(String userId);
+
+    User findUserByUserName(String username);
 }

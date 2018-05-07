@@ -54,7 +54,8 @@ public class CmsApplication {
     @Bean
     public Properties disconfConfig() throws IOException {
         PropertiesFactoryBean pf = new ReloadablePropertiesFactoryBean();
-        pf.setLocations(new ClassPathResource("application.properties"));
+        pf.setLocations(new ClassPathResource("common.properties"),
+                new ClassPathResource("application.properties"));
         return pf.getObject();
     }
 

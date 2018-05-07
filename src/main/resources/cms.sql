@@ -10,35 +10,35 @@ drop table if exists whitelist;
 drop table if exists project;
 
 create table if not exists project (
-  `projectId`   varchar(64) primary key,
-  `projectName` varchar(64)            NOT NULL,
-  `createTime`  datetime default now() NOT NULL
+  `project_id`   varchar(64) primary key,
+  `project_name` varchar(64)            NOT NULL,
+  `create_time`  datetime default now() NOT NULL
 );
 
 create table if not exists user (
-  `userId`    varchar(64) primary key                NOT NULL,
-  `userName`  varchar(64) character set utf8mb4      NOT NULL,
+  `user_id`    varchar(64) primary key                NOT NULL,
+  `user_name`  varchar(64) character set utf8mb4      NOT NULL,
   `password`  VARCHAR(128)                           NOT NULL,
-  `projectId` varchar(64)                            NOT NULL,
-  foreign key (projectId) references project (projectId)
+  `project_id` varchar(64)                            NOT NULL,
+  foreign key (project_id) references project (project_id)
 
 );
 
 create table if not exists whitelist (
-  `whiteCode` varchar(128) not null primary key
+  `white_code` varchar(128) not null primary key
 );
 
 
 create table if not exists component (
-  `componentId`   varchar(64) primary key             NOT NULL
+  `component_id`   varchar(64) primary key             NOT NULL
   comment '组件ID',
-  `componentName` varchar(64) default 'component'
+  `component_name` varchar(64) default 'component'
   comment '组件名称',
   `type`          varchar(64) default 'text'
   comment '组件的类型比如 text banner',
-  `createTime`    DATETIME default now()              NOT NULL
+  `create_time`    DATETIME default now()              NOT NULL
   comment '组件创建的时间',
-  `createBy`      varchar(64) default 'admin'
+  `create_by`      varchar(64) default 'admin'
   comment '组件创建者',
   `category`      varchar(64) comment '组件类目，用来判断哪个项目',
   `icon`          varchar(64) comment '图标',
@@ -50,31 +50,31 @@ create table if not exists component (
 
 
 create table if not exists page (
-  `pageId`     varchar(64)                                             NOT NULL
+  `page_id`     varchar(64)                                             NOT NULL
   COMMENT '页面唯一ID',
-  `pageName`   varchar(64)                                             not null
+  `page_name`   varchar(64)                                             not null
   COMMENT '页面名称 需要保证唯一',
-  primary key (pageId),
+  primary key (page_id),
 
   `status`     varchar(64)character set utf8mb4 default 'draft'
   comment '页面状态目前就三种 上线、下线、未上线',
-  `createTime` datetime DEFAULT NOW()                                  not null
+  `create_time` datetime DEFAULT NOW()                                  not null
   COMMENT '页面创建时间',
 
-  `minVersion` int comment '最低支持版本号',
+  `min_version` int comment '最低支持版本号',
   `type`       varchar(64)character set utf8mb4 comment '页面类型',
   `platform`   varchar(16) character set utf8mb4                       NOT NULL
   comment '页面适用的平台 app 小程序 或者都要',
   `editor`     varchar(64) character set utf8mb4                       NOT NULL
   comment '页面的修改人',
-  `createBy`   varchar(64) character set utf8mb4                       NOT NULL
+  `create_by`   varchar(64) character set utf8mb4                       NOT NULL
   comment '页面的创建人',
 
-  `projectId`  varchar(64)                                             NOT NULL
+  `project_id`  varchar(64)                                             NOT NULL
   comment '项目ID',
-  foreign key (projectId) references project (projectId),
+  foreign key (project_id) references project (project_id),
 
-  `pageInfo`   varchar(8192) character set utf8mb4 comment '页面数据'
+  `page_info`   varchar(8192) character set utf8mb4 comment '页面数据'
 );
 
 set @test_id = 'aaaa-bbbbbbb-ccccccccc';
