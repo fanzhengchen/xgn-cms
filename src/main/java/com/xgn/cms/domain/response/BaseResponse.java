@@ -2,7 +2,7 @@ package com.xgn.cms.domain.response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
+
 
 @Data
 public class BaseResponse {

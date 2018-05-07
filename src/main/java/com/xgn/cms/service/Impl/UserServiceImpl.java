@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public BaseResponse login(@RequestBody LoginRequest request) {
 
-        User user = userRepository.findUserByUserName(request.getUsername());
+        User user = null;//userRepository.findUserByUserName(request.getUsername());
         if (user == null) {
             return BaseResponse.error("user not exits");
         }

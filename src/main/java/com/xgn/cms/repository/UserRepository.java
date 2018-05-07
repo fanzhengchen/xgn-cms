@@ -10,13 +10,4 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, String> {
 
 
-    @Override
-    <S extends User> S save(S s);
-
-    @Override
-    void deleteById(String id);
-
-    User findUserByUserId(String id);
-
-    User findUserByUserName(String username);
 }

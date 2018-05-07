@@ -19,8 +19,6 @@ public class Page {
     @GenericGenerator(name = "pageId",strategy = "com.xgn.cms.generator.CmsIdGenerator")
     private String pageId;
 
-    private Integer version;
-
     private String pageName;
 
     private String status;

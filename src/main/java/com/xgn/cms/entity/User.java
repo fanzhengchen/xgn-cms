@@ -12,14 +12,15 @@ public class User {
     @Id
     @GenericGenerator(name = "userId",strategy = "com.xgn.cms.generator.CmsIdGenerator")
     @GeneratedValue(generator = "userId")
-    @Column(name = "userId")
     private String userId;
 
     private String userName;
 
-    private Integer priority;
-
     private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "projectId")
+    private Project project;
 
 
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,9 +41,9 @@ public class TokenInterceptor implements HandlerInterceptor {
          */
         try {
             String username = TokenUtil.getUsername(token);
-            if (userRepository.findUserByUserName(username) == null) {
-                handleTokenInvalid(response);
-            }
+//            if (userRepository.findUserByUserName(username) == null) {
+//                handleTokenInvalid(response);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
             handleTokenInvalid(response);
@@ -55,6 +56,16 @@ public class TokenInterceptor implements HandlerInterceptor {
 
         //log.debug("username on session :" + username);
         return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+
     }
 
     protected void handleTokenInvalid(HttpServletResponse response) {

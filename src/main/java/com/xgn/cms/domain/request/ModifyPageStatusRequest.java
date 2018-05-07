@@ -6,5 +6,4 @@ import lombok.Data;
 public class ModifyPageStatusRequest {
     private String pageId;
     private String pageStatus;
-    private String projectId;
 }

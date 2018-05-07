@@ -44,15 +44,13 @@ public class PageServiceImpl implements PageService {
      */
     @Override
     public BaseResponse createPage(CreatePageRequest request, HttpServletRequest req) {
-        Project project = projectRepository.findByProjectId(request.getProjectId());
+
         Page page = Page.builder()
                 .platform(request.getPlatform())
-                .project(project)
                 .pageName(request.getPageName())
-                .version(request.getVersion())
+                .minVersion(request.getVersion())
                 .build();
 
-        log.debug("create page project: {}", project);
         String fromPageId = request.getCopyFromPageId();
         String pageInfo = "{}";
         if (fromPageId != null) {
@@ -68,7 +66,6 @@ public class PageServiceImpl implements PageService {
         //page.setStatus("DRAFT");
         Page result = pageRepository.save(page);
 
-
         log.debug("page create by user: {}", username);
         PageCreateResponse response = PageCreateResponse.builder()
                 .pageId(result.getPageId())
@@ -77,7 +74,6 @@ public class PageServiceImpl implements PageService {
                 .pageInfo(result.getPageInfo())
                 .pageStatus(result.getStatus())
                 .build();
-
 
         return BaseResponse.ok(response);
     }

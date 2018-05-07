@@ -1,13 +1,17 @@
 package com.xgn.cms.entity;
 
+
+import lombok.Data;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Data
+@Entity
+@Table(name = "whitelist")
 public class WhiteList {
-    private String whitecode;
 
-    public String getWhitecode() {
-        return whitecode;
-    }
-
-    public void setWhitecode(String whitecode) {
-        this.whitecode = whitecode == null ? null : whitecode.trim();
-    }
+    @Id
+    private String whiteCode;
 }

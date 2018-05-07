@@ -7,6 +7,5 @@ public class EditPageRequest {
 
     private String pageId;
     private String platform;
-    private String projectId;
     private String pageInfo;
 }
