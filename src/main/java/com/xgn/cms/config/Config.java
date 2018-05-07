@@ -25,7 +25,7 @@ public class Config {
     private Boolean showSql;
     private Boolean generateDll;
     private Boolean openInView;
-    private Boolean dllAuto;
+    private String dllAuto;
     private String namingStrategy;
     private String logLevel;
 
@@ -96,7 +96,7 @@ public class Config {
     }
 
     @DisconfFileItem(name = "spring.jpa.hibernate.ddl-auto", associateField = "dllAuto")
-    public Boolean getDllAuto() {
+    public String getDllAuto() {
         return dllAuto;
     }
 

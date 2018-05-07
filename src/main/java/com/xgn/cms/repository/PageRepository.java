@@ -21,9 +21,9 @@ public interface PageRepository extends JpaRepository<Page, String>, JpaSpecific
 
     @Modifying
     @Transactional
-    @Query("update Page p set p.platform = :platform, p.pageInfo = :pageInfo where p.pageId = :pageId")
+    @Query("update Page p set p.status = :status, p.pageInfo = :pageInfo where p.pageId = :pageId")
     int updatePageInfo(@Param("pageId") String pageId,
-                       @Param("platform") String platform,
+                       @Param("status") String status,
                        @Param("pageInfo") String pageInfo);
 
 

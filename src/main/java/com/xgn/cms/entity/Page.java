@@ -13,10 +13,23 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class Page {
+    public static enum PageStatus {
+        DRAFT("DRAFT"),OFFLINE("OFFLINE"), ONLINE("ONLINE");
+        private String name;
+        private PageStatus(String name){
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
+
 
     @Id
     @GeneratedValue(generator = "pageId")
-    @GenericGenerator(name = "pageId",strategy = "com.xgn.cms.generator.CmsIdGenerator")
+    @GenericGenerator(name = "pageId", strategy = "com.xgn.cms.generator.CmsIdGenerator")
     private String pageId;
 
     private String pageName;
@@ -38,11 +51,11 @@ public class Page {
     private String pageInfo;
 
     @ManyToOne
-    @JoinColumn(name = "projectId")
+    @JoinColumn(name = "project_id")
     private Project project;
 
     @PrePersist
-    protected void onCreate(){
+    protected void onCreate() {
         createTime = new Date(System.currentTimeMillis());
     }
 }

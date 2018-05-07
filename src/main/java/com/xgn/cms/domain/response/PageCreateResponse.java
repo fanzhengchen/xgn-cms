@@ -15,4 +15,5 @@ public class PageCreateResponse {
     private String platform;
     private String pageStatus;
     private String pageInfo;
+    private Integer minVersion;
 }

@@ -79,7 +79,7 @@ public class CmsApplicationTests {
         user = new User();
         user.setUserName(username);
         user.setPassword(password);
-        user.setProject(projects.get(0));
+        user.setProjectId(projects.get(0).getProjectId());
 
         userRepository.save(user);
 

@@ -18,9 +18,7 @@ public class User {
 
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "projectId")
-    private Project project;
+    private String projectId;
 
 
 }

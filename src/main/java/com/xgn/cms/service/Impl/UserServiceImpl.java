@@ -5,8 +5,10 @@ import com.xgn.cms.domain.request.LoginRequest;
 import com.xgn.cms.domain.response.BaseResponse;
 import com.xgn.cms.domain.response.LoginData;
 import com.xgn.cms.domain.response.UserData;
+import com.xgn.cms.entity.Project;
 import com.xgn.cms.entity.User;
 
+import com.xgn.cms.repository.ProjectRepository;
 import com.xgn.cms.repository.UserRepository;
 import com.xgn.cms.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    ProjectRepository projectRepository;
+
     @Override
     public BaseResponse login(@RequestBody LoginRequest request) {
 
@@ -39,11 +44,12 @@ public class UserServiceImpl implements UserService {
         /**
          * 登陆返回参数
          */
+        Project project = projectRepository.findByProjectId(user.getProjectId());
 
         String token = TokenUtil.createToken(request.getUsername());
         UserData userData = UserData.builder()
                 .username(user.getUserName())
-                .projectId(user.getProject().getProjectId())
+                .projectId(project.getProjectId())
                 .build();
 
         LoginData loginData = LoginData.builder()
