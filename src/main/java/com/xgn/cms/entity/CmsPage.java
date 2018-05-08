@@ -12,11 +12,12 @@ import java.util.Date;
 @Table(name = "page")
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
-public class Page {
+public class CmsPage {
     public static enum PageStatus {
-        DRAFT("DRAFT"),OFFLINE("OFFLINE"), ONLINE("ONLINE");
+        DRAFT("DRAFT"), OFFLINE("OFFLINE"), ONLINE("ONLINE");
         private String name;
-        private PageStatus(String name){
+
+        private PageStatus(String name) {
             this.name = name;
         }
 
@@ -26,6 +27,13 @@ public class Page {
         }
     }
 
+    public static enum PageType {
+        ACTIVITY("ACTIVITY"), HOME("HOME");
+        private String name;
+        private PageType(String name) {
+            this.name = name;
+        }
+    }
 
     @Id
     @GeneratedValue(generator = "pageId")

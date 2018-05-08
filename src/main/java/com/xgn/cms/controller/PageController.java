@@ -1,9 +1,7 @@
 package com.xgn.cms.controller;
 
 
-import com.xgn.cms.domain.request.CreatePageRequest;
-import com.xgn.cms.domain.request.EditPageRequest;
-import com.xgn.cms.domain.request.ModifyPageStatusRequest;
+import com.xgn.cms.domain.request.*;
 import com.xgn.cms.domain.response.BaseResponse;
 import com.xgn.cms.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +35,14 @@ public class PageController {
         return pageService.editPage(request);
     }
 
+    @PostMapping("/configuration")
+    public BaseResponse pageConfig(@RequestBody PageConfigRequest request){
+        return pageService.pageConfig(request);
+    }
+
+    @PostMapping("/configuredList")
+    public BaseResponse pageConfigList(@RequestBody PageConfigListRequest request){
+        return pageService.pageConfigList(request);
+    }
 
 }

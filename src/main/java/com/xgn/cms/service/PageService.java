@@ -1,8 +1,6 @@
 package com.xgn.cms.service;
 
-import com.xgn.cms.domain.request.CreatePageRequest;
-import com.xgn.cms.domain.request.EditPageRequest;
-import com.xgn.cms.domain.request.ModifyPageStatusRequest;
+import com.xgn.cms.domain.request.*;
 import com.xgn.cms.domain.response.BaseResponse;
 import org.springframework.stereotype.Service;
 
@@ -15,4 +13,8 @@ public interface PageService {
     public BaseResponse createPage(CreatePageRequest request, HttpServletRequest req);
 
     public BaseResponse editPage(EditPageRequest request);
+
+    public BaseResponse pageConfig(PageConfigRequest request);
+
+    public BaseResponse pageConfigList(PageConfigListRequest request);
 }

@@ -4,12 +4,11 @@ create database if not exists cms
 
 
 drop table if exists spu;
-drop table if exists page;
+drop table if exists cmsPage;
 drop table if exists component;
 drop table if exists user;
 drop table if exists whitelist;
 drop table if exists project;
-
 
 
 create table if not exists project (
@@ -24,6 +23,8 @@ create table if not exists user (
   `password`   VARCHAR(128)                           NOT NULL,
   `project_id` varchar(64)                            NOT NULL,
   foreign key (project_id) references project (project_id)
+    on update cascade
+    on delete cascade
 
 );
 
@@ -52,7 +53,7 @@ create table if not exists component (
 );
 
 
-create table if not exists page (
+create table if not exists cmsPage (
   `page_id`     varchar(64)                                             NOT NULL
   COMMENT '页面唯一ID',
   `page_name`   varchar(64)                                             not null
@@ -75,7 +76,9 @@ create table if not exists page (
 
   `project_id`  varchar(64)                                             NOT NULL
   comment '项目ID',
-  foreign key (project_id) references project (project_id),
+  foreign key (project_id) references project (project_id)
+    on delete cascade
+    on update cascade,
 
   `page_info`   text(8192) character set utf8mb4 comment '页面数据'
 );
@@ -84,7 +87,9 @@ create table if not exists spu (
   `spu_id`  INTEGER primary key,
   `shop_id` INTEGER,
   `page_id` varchar(64),
-  foreign key (page_id) references page (page_id)
+  foreign key (page_id) references cmsPage (page_id)
+    on delete cascade
+    on update cascade
 
 );
 

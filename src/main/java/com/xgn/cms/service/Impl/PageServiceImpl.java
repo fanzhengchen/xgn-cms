@@ -1,13 +1,9 @@
 package com.xgn.cms.service.Impl;
 
 import com.xgn.cms.TokenUtil;
-import com.xgn.cms.domain.request.CreatePageRequest;
-import com.xgn.cms.domain.request.EditPageRequest;
-import com.xgn.cms.domain.request.ModifyPageStatusRequest;
-import com.xgn.cms.domain.request.SpuItem;
-import com.xgn.cms.domain.response.BaseResponse;
-import com.xgn.cms.domain.response.PageCreateResponse;
-import com.xgn.cms.entity.Page;
+import com.xgn.cms.domain.request.*;
+import com.xgn.cms.domain.response.*;
+import com.xgn.cms.entity.CmsPage;
 import com.xgn.cms.entity.Project;
 import com.xgn.cms.entity.Spu;
 import com.xgn.cms.entity.User;
@@ -16,13 +12,23 @@ import com.xgn.cms.repository.ProjectRepository;
 import com.xgn.cms.repository.SpuRepository;
 import com.xgn.cms.repository.UserRepository;
 import com.xgn.cms.service.PageService;
+import jdk.nashorn.internal.runtime.options.Option;
 import lombok.extern.slf4j.Slf4j;
+import org.omg.CORBA.ObjectHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+import rx.Observable;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -66,30 +72,30 @@ public class PageServiceImpl implements PageService {
 
         Project project = projectRepository.findByProjectId(user.getProjectId());
 
-        Page page = Page.builder()
-                .project(project)
-                .platform(request.getPlatform())
-                .pageName(request.getPageName())
-                .minVersion(request.getVersion())
-                .build();
-
         String fromPageId = request.getCopyFromPageId();
         String pageInfo = "{}";
         if (fromPageId != null) {
-            Page pt = pageRepository.findByPageId(fromPageId);
+            CmsPage pt = pageRepository.findByPageId(fromPageId);
             if (pt != null) {
                 pageInfo = pt.getPageInfo();
             }
         }
 
-        page.setPageInfo(pageInfo);
-        page.setEditor(username);
-        page.setCreateBy(username);
-        page.setStatus(Page.PageStatus.DRAFT.name());
+        CmsPage cmsPage = CmsPage.builder()
+                .project(project)
+                .platform(request.getPlatform())
+                .pageName(request.getPageName())
+                .minVersion(request.getMinVersion())
+                .pageInfo(pageInfo)
+                .editor(username)
+                .createBy(username)
+                .status(CmsPage.PageStatus.DRAFT.name())
+                .type(CmsPage.PageType.HOME.name())
+                .build();
 
-        Page result = pageRepository.save(page);
+        CmsPage result = pageRepository.save(cmsPage);
 
-        log.debug("page create by user: {}", username);
+        log.debug("cmsPage create by user: {}", username);
         PageCreateResponse response = PageCreateResponse.builder()
                 .pageId(result.getPageId())
                 .platform(result.getPlatform())
@@ -112,10 +118,10 @@ public class PageServiceImpl implements PageService {
         /**
          * 删掉
          */
-        log.debug("delete spu by pageId: {}",request.getPageId());
+        log.debug("delete spu by pageId: {}", request.getPageId());
         spuRepository.deleteSpuByPageId(request.getPageId());
 
-        log.debug("update page {}",request);
+        log.debug("update page {}", request);
         /**
          * 更新
          */
@@ -129,5 +135,68 @@ public class PageServiceImpl implements PageService {
 
         log.debug("edit page result: {}", request);
         return BaseResponse.ok();
+    }
+
+
+    @Override
+    public BaseResponse pageConfig(PageConfigRequest request) {
+        if (request == null || request.getPageId() == null) {
+            return BaseResponse.error("pageId not exits");
+        }
+        CmsPage cmsPage = pageRepository.findByPageId(request.getPageId());
+        if (cmsPage == null) {
+            return BaseResponse.error("pageId not exits");
+        }
+        PageConfigResponse response = PageConfigResponse.builder()
+                .pageInfo(cmsPage.getPageInfo())
+                .build();
+        return BaseResponse.ok(response);
+    }
+
+
+    /**
+     * 获取已经配置的页面列表啊
+     * <p>
+     * pageNo 默认从0开始
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public BaseResponse pageConfigList(PageConfigListRequest request) {
+
+        if (ObjectUtils.isEmpty(request) ||
+                ObjectUtils.isEmpty(request.getPageType()) ||
+                ObjectUtils.isEmpty(request.getPlatform()) ||
+                ObjectUtils.isEmpty(request.getPageNo()) ||
+                ObjectUtils.isEmpty(request.getPageSize())) {
+            return BaseResponse.error("illegal arguments");
+        }
+
+        int pageNo = request.getPageNo();
+        int pageSize = request.getPageSize();
+        PageRequest pageRequest = new PageRequest(pageNo, pageSize);
+        List<CmsPage> pages = pageRepository.findAllByTypeAndPlatform(
+                request.getPageType(),
+                request.getPlatform(),
+                pageRequest);
+        /**
+         * 转换成PageConfigItem
+         */
+        ArrayList<PageConfigItem> items = pages.stream()
+                .map(cmsPage -> {
+                    return PageConfigItem.builder()
+                            .editName(cmsPage.getEditor())
+                            .minVersion(cmsPage.getMinVersion())
+                            .pageId(cmsPage.getPageId())
+                            .pageName(cmsPage.getPageName())
+                            .pageStatus(cmsPage.getStatus())
+                            .stamp(cmsPage.getCreateTime().getTime() + "")
+                            .build();
+                }).collect(Collectors.toCollection(ArrayList::new));
+        return BaseResponse.ok(PageConfigListResponse.builder()
+                .totalSize(items.size())
+                .list(items)
+                .build());
     }
 }

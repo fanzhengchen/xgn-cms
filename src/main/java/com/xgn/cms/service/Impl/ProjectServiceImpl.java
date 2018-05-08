@@ -19,6 +19,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -52,19 +53,24 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
+    /**
+     * 获取所有项目
+     *
+     * @return
+     */
     @Override
     public BaseResponse allProjects() {
-        List<Project> projects = projectRepository.findAll();
-        ProjectListResponse response = new ProjectListResponse();
-        List<ProjectItem> projectItems = new ArrayList<>();
 
-        for (Project project : projects) {
-            projectItems.add(ProjectItem.builder()
-                    .projectId(project.getProjectId())
-                    .projectName(project.getProjectName())
-                    .build());
-        }
-        response.setList(projectItems);
+        ProjectListResponse response = new ProjectListResponse();
+        List<ProjectItem> projectItems = projectRepository.findAll()
+                .stream()
+                .map(project -> {
+                    return ProjectItem.builder()
+                            .projectId(project.getProjectId())
+                            .projectName(project.getProjectName())
+                            .build();
+                }).collect(Collectors.toList());
+
         return BaseResponse.ok(response);
     }
 }

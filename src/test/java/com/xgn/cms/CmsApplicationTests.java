@@ -1,11 +1,9 @@
 package com.xgn.cms;
 
-import com.xgn.cms.domain.response.BaseResponse;
-import com.xgn.cms.domain.response.ProjectItem;
-import com.xgn.cms.entity.Page;
+import com.xgn.cms.domain.response.PageConfigItem;
+import com.xgn.cms.entity.CmsPage;
 import com.xgn.cms.entity.Project;
 import com.xgn.cms.entity.User;
-import com.xgn.cms.entity.WhiteList;
 import com.xgn.cms.repository.PageRepository;
 import com.xgn.cms.repository.ProjectRepository;
 import com.xgn.cms.repository.UserRepository;
@@ -15,22 +13,18 @@ import com.xinguangnet.tuchao.goodscenter.api.request.RequestSpuDetail;
 import com.xinguangnet.tuchao.goodscenter.api.response.ResponseSpuDetail;
 import com.xinguangnet.tuchao.goodscenter.api.service.SpuApi;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Session;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -104,6 +98,27 @@ public class CmsApplicationTests {
         Assert.assertFalse(detailTbbRpcResponse.isSuc());
     }
 
+    @Test
+    public void testFindPageByIdAndType() {
+        PageRequest pageRequest = new PageRequest(0, 4);
+        List<CmsPage> pages = pageRepository.findAllByTypeAndPlatform("HOME", "APP",
+                pageRequest);
+
+        List<PageConfigItem> items = pages.stream()
+                .map(cmsPage -> {
+                    return PageConfigItem.builder()
+                            .editName(cmsPage.getEditor())
+                            .minVersion(cmsPage.getMinVersion())
+                            .pageId(cmsPage.getPageId())
+                            .pageName(cmsPage.getPageName())
+                            .pageStatus(cmsPage.getStatus())
+                            .stamp(cmsPage.getCreateTime().getTime() + "")
+                            .build();
+                }).collect(Collectors.toList());
+
+        Assert.assertTrue(items.size() == 4);
+
+    }
 
 }
 
