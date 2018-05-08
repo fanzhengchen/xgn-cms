@@ -16,11 +16,10 @@ import javax.persistence.Table;
 @Data
 @Builder
 @Entity
-@Table(name = "whitelist")
+@Table(name = "white_code")
 @AllArgsConstructor
 @NoArgsConstructor
 public class WhiteCode {
-
     @Id
     private String id;
 }

@@ -82,7 +82,7 @@ public class PageServiceImpl implements PageService {
         }
 
         CmsPage cmsPage = CmsPage.builder()
-                .project(project)
+                .projectId(project.getProjectId())
                 .platform(request.getPlatform())
                 .pageName(request.getPageName())
                 .minVersion(request.getMinVersion())

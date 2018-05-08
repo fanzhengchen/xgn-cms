@@ -38,7 +38,33 @@ public interface PageRepository extends JpaRepository<CmsPage, String>, JpaSpeci
     @Override
     Page<CmsPage> findAll(Pageable pageable);
 
-    @Query("select s from CmsPage s where s.platform = :platform and s.type = :type")
-    List<CmsPage> findAllByTypeAndPlatform(@Param("type") String pageType,
+    @Query("select s from CmsPage s where s.platform = :platform and s.type = :pageType")
+    List<CmsPage> findAllByTypeAndPlatform(@Param("pageType") String pageType,
                                            @Param("platform") String platform, Pageable pageable);
+
+
+    @Query("select s from CmsPage s where s.projectId = :projectId " +
+            "and s.minVersion = :version and s.type = :pageType")
+    CmsPage findByProjectIdAndMinVersionAndType(@Param("projectId") String projectId,
+                                                @Param("version") int version,
+                                                @Param("pageType") String pageType);
+
+    @Query("select s from CmsPage s where s.projectId = :projectId " +
+            "and s.type = :pageType " +
+            "and s.minVersion = (select max(p.minVersion)  from CmsPage p)")
+    List<CmsPage> findByProjectIdAndTypeAndMaxVersion(
+            @Param("projectId") String projectId,
+            @Param("pageType") String pageType);
+
+    @Query("select max(p.minVersion) from CmsPage p where p.projectId=?1")
+    int findMaxVersion(String projectId);
+
+
+    @Query("select s from CmsPage s where s.projectId = :projectId " +
+            "and s.type = :pageType and s.minVersion = " +
+            "(select max(p.minVersion ) from CmsPage p where p.minVersion <= :appVersion)")
+    List<CmsPage> findByProjectIdAndTypeAndNoGreaterThanVersion(
+            @Param("projectId") String projectId,
+            @Param("pageType") String pageType,
+            @Param("appVersion") Integer appVersion);
 }

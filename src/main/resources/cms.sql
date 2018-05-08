@@ -95,8 +95,17 @@ create table if not exists spu (
 );
 
 set @test_id = 'aaaa-bbbbbbb-ccccccccc';
+set @tubobo = 'aaaaaaaaaaaaaaaaaaaaaaaa';
+set @jutong = 'bbbbbbbbbbbbbbbbbbbbbbbb';
+set @gongyinglian = 'cccccccccccccccccccc';
 #默认测试项目
 insert into project values (@test_id, '啦啦', now());
+
+insert into project values (@tubobo, '兔波波', now());
+
+insert into project values (@jutong, '聚童', now());
+
+insert into project values (@gongyinglian, '供应链', now());
 
 #默认用户admin
 insert into user values ('00', 'admin', 'admin123', @test_id);

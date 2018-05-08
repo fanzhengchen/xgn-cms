@@ -58,9 +58,7 @@ public class CmsPage {
 
     private String pageInfo;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
+    private String projectId;
 
     @PrePersist
     protected void onCreate() {

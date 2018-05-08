@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +24,7 @@ public class WhiteCodeServiceImpl implements WhiteCodeService {
 
     @Override
     public BaseResponse remove(RemoveWhiteCodeRequest request) {
+
         List<WhiteCode> whiteCode = request.getWhiteList()
                 .stream()
                 .map(code -> {
@@ -50,6 +52,7 @@ public class WhiteCodeServiceImpl implements WhiteCodeService {
                 .stream()
                 .map(code -> new WhiteCode(code))
                 .collect(Collectors.toList());
+        log.debug("save white codes {}",codes);
         whiteListRepository.save(codes);
         return BaseResponse.ok();
     }
