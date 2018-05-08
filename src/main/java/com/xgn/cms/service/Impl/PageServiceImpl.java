@@ -194,6 +194,7 @@ public class PageServiceImpl implements PageService {
                             .stamp(cmsPage.getCreateTime().getTime() + "")
                             .build();
                 }).collect(Collectors.toCollection(ArrayList::new));
+
         return BaseResponse.ok(PageConfigListResponse.builder()
                 .totalSize(items.size())
                 .list(items)

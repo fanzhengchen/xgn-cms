@@ -4,10 +4,11 @@ create database if not exists cms
 
 
 drop table if exists spu;
-drop table if exists cmsPage;
-drop table if exists component;
 drop table if exists user;
-drop table if exists whitelist;
+drop table if exists cms_page;
+drop table if exists component;
+
+drop table if exists white_code;
 drop table if exists project;
 
 
@@ -28,8 +29,8 @@ create table if not exists user (
 
 );
 
-create table if not exists whitelist (
-  `white_code` varchar(128) not null primary key
+create table if not exists white_code (
+  `id` varchar(128) not null primary key
 );
 
 
@@ -53,7 +54,7 @@ create table if not exists component (
 );
 
 
-create table if not exists cmsPage (
+create table if not exists cms_page (
   `page_id`     varchar(64)                                             NOT NULL
   COMMENT '页面唯一ID',
   `page_name`   varchar(64)                                             not null
@@ -87,7 +88,7 @@ create table if not exists spu (
   `spu_id`  INTEGER primary key,
   `shop_id` INTEGER,
   `page_id` varchar(64),
-  foreign key (page_id) references cmsPage (page_id)
+  foreign key (page_id) references cms_page (page_id)
     on delete cascade
     on update cascade
 

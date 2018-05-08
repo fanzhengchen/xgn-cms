@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @Builder
 @Entity
-@Table(name = "page")
+@Table(name = "cms_page")
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class CmsPage {
