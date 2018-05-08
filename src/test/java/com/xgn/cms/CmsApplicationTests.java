@@ -4,6 +4,7 @@ import com.xgn.cms.domain.response.PageConfigItem;
 import com.xgn.cms.entity.CmsPage;
 import com.xgn.cms.entity.Project;
 import com.xgn.cms.entity.User;
+import com.xgn.cms.entity.WhiteCode;
 import com.xgn.cms.repository.PageRepository;
 import com.xgn.cms.repository.ProjectRepository;
 import com.xgn.cms.repository.UserRepository;
@@ -19,6 +20,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
@@ -43,6 +45,9 @@ public class CmsApplicationTests {
 
     @Resource
     SpuApi spuApi;
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
     private String projectId = "aaaa-bbbbbbb-ccccccccc";
 
@@ -146,6 +151,21 @@ public class CmsApplicationTests {
         List<CmsPage> cmsPages =
                 pageRepository.findByProjectIdAndTypeAndNoGreaterThanVersion(
                         projectId, CmsPage.PageType.HOME.name(), 109);
+
+    }
+
+    @Test
+    public void testRedis() {
+        String key = "1";
+        WhiteCode code1 = new WhiteCode("1");
+        WhiteCode code2 = new WhiteCode("2");
+
+        redisTemplate.opsForList()
+                .rightPush(key, code1);
+        redisTemplate.opsForList().rightPush(key, code2);
+
+        redisTemplate.opsForList()
+                .index(key,0);
 
     }
 

@@ -12,6 +12,11 @@ import com.xgn.cms.repository.ProjectRepository;
 import com.xgn.cms.repository.SpuRepository;
 import com.xgn.cms.repository.UserRepository;
 import com.xgn.cms.service.PageService;
+import com.xinguangnet.tuchao.axe.AxeConstants;
+import com.xinguangnet.tuchao.axe.biz.TbbRpcResponse;
+import com.xinguangnet.tuchao.goodscenter.api.request.RequestSpuDetail;
+import com.xinguangnet.tuchao.goodscenter.api.response.ResponseSpuDetail;
+import com.xinguangnet.tuchao.goodscenter.api.service.SpuApi;
 import jdk.nashorn.internal.runtime.options.Option;
 import lombok.extern.slf4j.Slf4j;
 import org.omg.CORBA.ObjectHelper;
@@ -19,10 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import rx.Observable;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +42,9 @@ import java.util.stream.Collectors;
 public class PageServiceImpl implements PageService {
 
     @Autowired
+    RedisTemplate redisTemplate;
+
+    @Autowired
     PageRepository pageRepository;
 
     @Autowired
@@ -45,6 +55,9 @@ public class PageServiceImpl implements PageService {
 
     @Autowired
     SpuRepository spuRepository;
+
+    @Resource
+    SpuApi spuApi;
 
 
     @Override
@@ -114,6 +127,9 @@ public class PageServiceImpl implements PageService {
                 request.getPageStatus(),
                 request.getPageInfo());
         List<SpuItem> spuItems = request.getSpuList();
+        CmsPage cmsPage = pageRepository.findByPageId(request.getPageId());
+        Project project = projectRepository.findByProjectId(cmsPage.getProjectId());
+        int platformId = project.getPlatformId();
 
         /**
          * 删掉
@@ -122,16 +138,25 @@ public class PageServiceImpl implements PageService {
         spuRepository.deleteSpuByPageId(request.getPageId());
 
         log.debug("update page {}", request);
+
         /**
          * 更新
          */
-        spuItems.forEach(spuItem -> {
-            spuRepository.save(Spu.builder()
-                    .spuId(spuItem.getSpuId())
-                    .shopId(spuItem.getShopId())
-                    .pageId(request.getPageId())
-                    .build());
-        });
+        redisTemplate.opsForList().rightPushAll(request.getPageId());
+        spuItems.stream()
+                .map(spuItem -> {
+                    RequestSpuDetail detail = new RequestSpuDetail();
+                    detail.setShopId(spuItem.getShopId());
+                    detail.setSpuId(spuItem.getSpuId());
+                    detail.setPlatform(AxeConstants.PlatformCodeEnum.getByValue(platformId));
+                    return detail;
+                })
+                .map(detail -> spuApi.spuDetail(detail))
+                .map(rpcResponse -> rpcResponse.getData())
+                .forEach(detail -> {
+                    redisTemplate.opsForList().rightPush(request.getPageId(),
+                            detail);
+                });
 
         log.debug("edit page result: {}", request);
         return BaseResponse.ok();

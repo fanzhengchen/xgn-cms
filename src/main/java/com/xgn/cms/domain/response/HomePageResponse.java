@@ -4,6 +4,7 @@ import com.xinguangnet.tuchao.goodscenter.api.response.ResponseSpuDetail;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,5 +16,5 @@ public class HomePageResponse {
     private String pageName;
     private String pageStatus;
     private int minVersion;
-    private List<ResponseSpuDetail> spuList;
+    private ArrayList<ResponseSpuDetail> spuList;
 }

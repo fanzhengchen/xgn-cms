@@ -15,7 +15,8 @@ drop table if exists project;
 create table if not exists project (
   `project_id`   varchar(64) primary key,
   `project_name` varchar(64)            NOT NULL,
-  `create_time`  datetime default now() NOT NULL
+  `create_time`  datetime default now() NOT NULL,
+  `platform_id`  int                    not null
 );
 
 create table if not exists user (
@@ -99,13 +100,13 @@ set @tubobo = 'aaaaaaaaaaaaaaaaaaaaaaaa';
 set @jutong = 'bbbbbbbbbbbbbbbbbbbbbbbb';
 set @gongyinglian = 'cccccccccccccccccccc';
 #默认测试项目
-insert into project values (@test_id, '啦啦', now());
+insert into project values (@test_id, '啦啦', now(), 0);
 
-insert into project values (@tubobo, '兔波波', now());
+insert into project values (@tubobo, '兔波波', now(), 1);
 
-insert into project values (@jutong, '聚童', now());
+insert into project values (@jutong, '聚童', now(), 2);
 
-insert into project values (@gongyinglian, '供应链', now());
+insert into project values (@gongyinglian, '供应链', now(), 3);
 
 #默认用户admin
 insert into user values ('00', 'admin', 'admin123', @test_id);
