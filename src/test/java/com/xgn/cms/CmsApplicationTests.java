@@ -139,6 +139,9 @@ public class CmsApplicationTests {
         List<CmsPage> cmsPages = pageRepository.findByProjectIdAndTypeAndMaxVersion(
                 projectId,
                 "HOME");
+        if(cmsPages == null){
+            return ;
+        }
         CmsPage cmsPage = cmsPages.get(0);
 
         Assert.assertEquals(version, cmsPage.getMinVersion());

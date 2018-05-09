@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
 
 @Component
 @Slf4j
@@ -21,17 +22,23 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     private String KEY = "Authorization";
     private String loginUri = "/user/login";
+    private HashSet<String> noCheck = new HashSet<String>() {{
+        add("/user/login");
+        add("/homepage/normal");
+        add("/homepage/whitelist");
+    }};
 
     @Autowired
     UserRepository userRepository;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (loginUri.endsWith(request.getRequestURI())) {
+        if (noCheck.contains(request.getRequestURI())) {
             return true;
         }
-        log.debug("request : {}", request.getRequestURI());
+
         String token = request.getHeader(KEY);
+        log.debug("request : {} token; {}", request, token);
         if (token == null) {
             return false;
         }
@@ -41,9 +48,6 @@ public class TokenInterceptor implements HandlerInterceptor {
          */
         try {
             String username = TokenUtil.getUsername(token);
-//            if (userRepository.findUserByUserName(username) == null) {
-//                handleTokenInvalid(response);
-//            }
         } catch (Exception e) {
             e.printStackTrace();
             handleTokenInvalid(response);
@@ -53,8 +57,6 @@ public class TokenInterceptor implements HandlerInterceptor {
         /**
          * token无效
          */
-
-        //log.debug("username on session :" + username);
         return true;
     }
 

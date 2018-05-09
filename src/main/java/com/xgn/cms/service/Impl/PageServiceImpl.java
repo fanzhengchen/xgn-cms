@@ -83,6 +83,11 @@ public class PageServiceImpl implements PageService {
             return BaseResponse.error("user not found");
         }
 
+        if (pageRepository.findByPageName(request.getPageName()) != null) {
+            return BaseResponse.error("page name duplicate");
+        }
+        //pageRepository.finrequest.getPageName();
+
         Project project = projectRepository.findByProjectId(user.getProjectId());
 
         String fromPageId = request.getCopyFromPageId();
@@ -103,7 +108,7 @@ public class PageServiceImpl implements PageService {
                 .editor(username)
                 .createBy(username)
                 .status(CmsPage.PageStatus.DRAFT.name())
-                .type(CmsPage.PageType.HOME.name())
+                .type(request.getPageType())
                 .build();
 
         CmsPage result = pageRepository.save(cmsPage);
@@ -131,6 +136,9 @@ public class PageServiceImpl implements PageService {
         Project project = projectRepository.findByProjectId(cmsPage.getProjectId());
         int platformId = project.getPlatformId();
 
+        if (ObjectUtils.isEmpty(cmsPage)) {
+            return BaseResponse.error("no such page");
+        }
         /**
          * 删掉
          */
@@ -198,7 +206,7 @@ public class PageServiceImpl implements PageService {
             return BaseResponse.error("illegal arguments");
         }
 
-        int pageNo = request.getPageNo();
+        int pageNo = Math.max(0, request.getPageNo() - 1);
         int pageSize = request.getPageSize();
         PageRequest pageRequest = new PageRequest(pageNo, pageSize);
         List<CmsPage> pages = pageRepository.findAllByTypeAndPlatform(

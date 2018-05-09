@@ -31,6 +31,7 @@ public interface PageRepository extends JpaRepository<CmsPage, String>, JpaSpeci
                        @Param("status") String status,
                        @Param("pageInfo") String pageInfo);
 
+    CmsPage findByPageName(String pageName);
 
     //@Query("select CmsPage from CmsPage where pageId= :pageId")
     CmsPage findByPageId(String pageId);
@@ -45,7 +46,7 @@ public interface PageRepository extends JpaRepository<CmsPage, String>, JpaSpeci
 
     @Query("select s from CmsPage s where s.projectId = :projectId " +
             "and s.minVersion = :version and s.type = :pageType")
-    CmsPage findByProjectIdAndMinVersionAndType(@Param("projectId") String projectId,
+    List<CmsPage> findByProjectIdAndMinVersionAndType(@Param("projectId") String projectId,
                                                 @Param("version") int version,
                                                 @Param("pageType") String pageType);
 

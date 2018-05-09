@@ -6,6 +6,7 @@ import lombok.Data;
 public class CreatePageRequest {
     private String platform;
     private String pageName;
+    private String pageType;
     private Integer minVersion;
     private String copyFromPageId;
 }

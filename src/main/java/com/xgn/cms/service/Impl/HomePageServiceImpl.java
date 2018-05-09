@@ -35,13 +35,14 @@ public class HomePageServiceImpl implements HomePageService {
     @Override
     public BaseResponse normalRequest(NormalHomePageRequest request) {
 
-        CmsPage cmsPage = pageRepository.findByProjectIdAndMinVersionAndType(
+        List<CmsPage> cmsPages = pageRepository.findByProjectIdAndMinVersionAndType(
                 request.getProjectId(),
                 request.getAppVersion(),
                 CmsPage.PageType.HOME.name());
-        if (cmsPage == null) {
+        if (ObjectUtils.isEmpty(cmsPages)) {
             return BaseResponse.error("no such page");
         }
+        CmsPage cmsPage = cmsPages.get(0);
 
         ArrayList<ResponseSpuDetail> spuList = getFromRedis(cmsPage.getPageId());
         HomePageResponse response = convertFromCmsPage(false, cmsPage, spuList);

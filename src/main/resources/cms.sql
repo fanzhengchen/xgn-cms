@@ -56,27 +56,27 @@ create table if not exists component (
 
 
 create table if not exists cms_page (
-  `page_id`     varchar(64)                                             NOT NULL
+  `page_id`     varchar(64)                                                  NOT NULL
   COMMENT '页面唯一ID',
-  `page_name`   varchar(64)                                             not null
+  `page_name`   varchar(64) unique                                           not null
   COMMENT '页面名称 需要保证唯一',
   primary key (page_id),
 
   `status`      varchar(64)character set utf8mb4 default 'draft'
   comment '页面状态目前就三种 上线、下线、未上线',
-  `create_time` datetime DEFAULT NOW()                                  not null
+  `create_time` datetime DEFAULT NOW()                                       not null
   COMMENT '页面创建时间',
 
   `min_version` int comment '最低支持版本号',
   `type`        varchar(64)character set utf8mb4 comment '页面类型',
-  `platform`    varchar(16) character set utf8mb4                       NOT NULL
+  `platform`    varchar(16) character set utf8mb4                            NOT NULL
   comment '页面适用的平台 app 小程序 或者都要',
-  `editor`      varchar(64) character set utf8mb4                       NOT NULL
+  `editor`      varchar(64) character set utf8mb4                            NOT NULL
   comment '页面的修改人',
-  `create_by`   varchar(64) character set utf8mb4                       NOT NULL
+  `create_by`   varchar(64) character set utf8mb4                            NOT NULL
   comment '页面的创建人',
 
-  `project_id`  varchar(64)                                             NOT NULL
+  `project_id`  varchar(64)                                                  NOT NULL
   comment '项目ID',
   foreign key (project_id) references project (project_id)
     on delete cascade
@@ -96,13 +96,13 @@ create table if not exists spu (
 );
 
 set @test_id = 'aaaa-bbbbbbb-ccccccccc';
-set @tubobo = 'aaaaaaaaaaaaaaaaaaaaaaaa';
+set @siji = 'aaaaaaaaaaaaaaaaaaaaaaaa';
 set @jutong = 'bbbbbbbbbbbbbbbbbbbbbbbb';
 set @gongyinglian = 'cccccccccccccccccccc';
 #默认测试项目
 insert into project values (@test_id, '啦啦', now(), 0);
 
-insert into project values (@tubobo, '四级严选', now(), 3);
+insert into project values (@siji, '四级严选', now(), 3);
 
 insert into project values (@jutong, '聚童', now(), 1);
 
@@ -112,6 +112,14 @@ insert into project values (@gongyinglian, '车配供应链', now(), 2);
 insert into user values ('00', 'admin', 'admin123', @test_id);
 
 
-insert into user values ('01', 'mark', 'mark123', @gongyinglian)
+insert into user values ('01', 'mark', 'mark123', @gongyinglian);
+
+insert into user values ('02', 'xgn1', 'xgn123', @jutong);
+
+insert into user values ('03', 'xgn2', 'xgn123', @siji);
+
+insert into user values ('04', 'xgn3', 'xgn123', @gongyinglian);
+
+
 
 
