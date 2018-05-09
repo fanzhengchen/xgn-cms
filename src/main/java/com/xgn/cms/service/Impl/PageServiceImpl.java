@@ -142,7 +142,7 @@ public class PageServiceImpl implements PageService {
         /**
          * 更新
          */
-        redisTemplate.opsForList().rightPushAll(request.getPageId());
+        redisTemplate.delete(request.getPageId());
         spuItems.stream()
                 .map(spuItem -> {
                     RequestSpuDetail detail = new RequestSpuDetail();

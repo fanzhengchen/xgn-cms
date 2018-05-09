@@ -102,13 +102,16 @@ set @gongyinglian = 'cccccccccccccccccccc';
 #默认测试项目
 insert into project values (@test_id, '啦啦', now(), 0);
 
-insert into project values (@tubobo, '兔波波', now(), 1);
+insert into project values (@tubobo, '四级严选', now(), 3);
 
-insert into project values (@jutong, '聚童', now(), 2);
+insert into project values (@jutong, '聚童', now(), 1);
 
-insert into project values (@gongyinglian, '供应链', now(), 3);
+insert into project values (@gongyinglian, '车配供应链', now(), 2);
 
 #默认用户admin
 insert into user values ('00', 'admin', 'admin123', @test_id);
+
+
+insert into user values ('01', 'mark', 'mark123', @gongyinglian)
 
 

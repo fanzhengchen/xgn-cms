@@ -12,7 +12,7 @@ import java.util.Date;
 public class Project {
 
     public enum ProjectName {
-        TU_BO_BO("兔波波", 1), JU_TONG("聚童", 2), GONG_YING_LINA("供应链", 3);
+        SI_JI_YAN_XUAN("四级严选", 3), JU_TONG("聚童", 1), GONG_YING_LINA("供应链", 2);
         private String name;
         private int platformId;
 
