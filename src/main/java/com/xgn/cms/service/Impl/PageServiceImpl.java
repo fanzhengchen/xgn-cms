@@ -77,7 +77,12 @@ public class PageServiceImpl implements PageService {
     @Override
     public BaseResponse createPage(CreatePageRequest request, HttpServletRequest req) {
 
-        String username = TokenUtil.getUsername(req);
+        String username = null;
+        try {
+            username = TokenUtil.getUsername(req);
+        } catch (Exception e) {
+            return BaseResponse.error("token might be nullB");
+        }
         User user = userRepository.findUserByUserName(username);
         if (username == null || user == null) {
             return BaseResponse.error("user not found");

@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
 
-@Component
+
 @Slf4j
 public class TokenInterceptor implements HandlerInterceptor {
 
@@ -57,6 +57,8 @@ public class TokenInterceptor implements HandlerInterceptor {
         /**
          * token无效
          */
+        //response.setHeader("access-control-allow-origin","POST");
+        //response.setContentType("application/json");
         return true;
     }
 
